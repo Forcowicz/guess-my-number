@@ -3,18 +3,18 @@
 const scoreDOM = document.querySelector('.score');
 const message = document.querySelector('.message');
 
-let score, secretNumber, highscore;
+let score, secretNumber, highscore, between;
 highscore = 0;
 
 init();
 
 document.querySelector('.check').addEventListener('click', () => {
-  const guess = Number(document.querySelector('.guess').value);
+  const guess = Number(document.querySelector('#guess').value);
 
   if(!guess) {
-    message.textContent = 'No number!';
+    message.textContent = 'Brak numeru!';
   } else if (guess === secretNumber) {
-    message.textContent = "That's right!";
+    message.textContent = "Dobry strzał!";
     document.querySelector('body').style.backgroundColor = '#60B347';
     document.querySelector('.number').textContent = String(secretNumber);
 
@@ -24,14 +24,14 @@ document.querySelector('.check').addEventListener('click', () => {
     }
   } else if (guess > secretNumber) {
     if(score > 1) {
-      message.textContent = 'Too high!';
+      message.textContent = 'Za wysoko!';
       decreaseScore();
     } else {
       gameOver();
     }
   } else if (guess < secretNumber) {
     if(score > 1) {
-      message.textContent = 'Too low!';
+      message.textContent = 'Za nisko!';
       decreaseScore();
     } else {
       gameOver();
@@ -43,12 +43,13 @@ document.querySelector('.again').addEventListener('click', init);
 
 function init() {
   score = 20;
+  between = Number(document.getElementById('input').value);
   document.querySelector('.score').textContent = '20';
-  secretNumber = Math.trunc(Math.random() * 20) + 1;
+  secretNumber = Math.trunc(Math.random() * between) + 1;
   document.querySelector('body').style.backgroundColor = '#222';
-  document.querySelector('.guess').value = '';
+  document.querySelector('#guess').value = '';
   document.querySelector('.number').textContent = '?';
-  message.textContent = 'Start guessing...';
+  message.textContent = 'Zacznij zgadywać...';
 }
 
 function decreaseScore() {
