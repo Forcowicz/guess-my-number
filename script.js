@@ -1,11 +1,14 @@
 'use strict';
 
 const scoreDOM = document.querySelector('.score');
-const message = document.querySelector('.message');
 
 let score, secretNumber, highscore, between, gameOver, input;
 highscore = 0;
 input = document.getElementById('input');
+
+const displayMessage = message => {
+  document.querySelector('.message').textContent = message;
+};
 
 init();
 
@@ -14,9 +17,9 @@ document.querySelector('.check').addEventListener('click', () => {
     const guess = Number(document.querySelector('#guess').value);
 
     if (!guess) {
-      message.textContent = 'Brak numeru!';
+      displayMessage('Brak numeru!');
     } else if (guess === secretNumber) {
-      message.textContent = "Dobry strzał!";
+      displayMessage('Dobry strzał!');
       document.querySelector('body').style.backgroundColor = '#60B347';
       document.querySelector('.number').textContent = String(secretNumber);
       gameOver = true;
@@ -25,17 +28,13 @@ document.querySelector('.check').addEventListener('click', () => {
         highscore = score;
         document.querySelector('.highscore').textContent = highscore;
       }
-    } else if (guess > secretNumber) {
+    } else if(guess !== secretNumber) {
       if (score > 1) {
-        message.textContent = 'Za wysoko!';
-        decreaseScore();
-      } else {
-        endGame();
-      }
-    } else if (guess < secretNumber) {
-      if (score > 1) {
-        message.textContent = 'Za nisko!';
-        decreaseScore();
+        displayMessage(guess > secretNumber ? 'Za wysoko!' : 'Za nisko!');
+        if(score > 0) {
+          score--;
+          scoreDOM.textContent = String(score);
+        }
       } else {
         endGame();
       }
@@ -61,20 +60,16 @@ function init() {
   document.querySelector('body').style.backgroundColor = '#222';
   document.querySelector('#guess').value = '';
   document.querySelector('.number').textContent = '?';
-  message.textContent = 'Zacznij zgadywać...';
+  displayMessage('Zacznij zgadywać...');
   document.querySelector('.between').textContent = `1 - ${between}`;
   gameOver = false;
 }
 
-function decreaseScore() {
+function endGame() {
+  displayMessage('You lost the game :(');
+  gameOver = true;
   if(score > 0) {
     score--;
     scoreDOM.textContent = String(score);
   }
-}
-
-function endGame() {
-  message.textContent = 'You lost the game :(';
-  gameOver = true;
-  decreaseScore();
 }
