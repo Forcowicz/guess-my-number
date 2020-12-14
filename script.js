@@ -3,8 +3,9 @@
 const scoreDOM = document.querySelector('.score');
 const message = document.querySelector('.message');
 
-let score, secretNumber, highscore, between, gameOver;
+let score, secretNumber, highscore, between, gameOver, input;
 highscore = 0;
+input = document.getElementById('input');
 
 init();
 
@@ -44,15 +45,24 @@ document.querySelector('.check').addEventListener('click', () => {
 
 document.querySelector('.again').addEventListener('click', init);
 
+input.addEventListener('focusout', () => {
+  if(Number(input.value) < 1 || Number(input.value) > 100000 && input.value) {
+    alert('Liczba musi być w zakresie pomiędzy 1 a 100000!');
+    input.value = '20';
+    input.focus();
+  }
+});
+
 function init() {
   score = 20;
-  between = Number(document.getElementById('input').value);
+  between = Number(input.value);
   document.querySelector('.score').textContent = '20';
   secretNumber = Math.trunc(Math.random() * between) + 1;
   document.querySelector('body').style.backgroundColor = '#222';
   document.querySelector('#guess').value = '';
   document.querySelector('.number').textContent = '?';
   message.textContent = 'Zacznij zgadywać...';
+  document.querySelector('.between').textContent = `1 - ${between}`;
   gameOver = false;
 }
 
