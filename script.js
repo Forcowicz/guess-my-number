@@ -2,8 +2,8 @@
 
 const scoreDOM = document.querySelector('.score');
 
-let score, secretNumber, highscore, between, gameOver, input;
-highscore = 0;
+let score, secretNumber, highscore, between, gameOver, input, fullScore;
+highscore = 0; fullScore = 0;
 input = document.getElementById('input');
 
 const displayMessage = message => {
@@ -23,6 +23,8 @@ document.querySelector('.check').addEventListener('click', () => {
       document.querySelector('body').style.backgroundColor = '#60B347';
       document.querySelector('.number').textContent = String(secretNumber);
       gameOver = true;
+      fullScore += score;
+      document.querySelector('.fullScore').textContent = fullScore;
 
       if (score > highscore) {
         highscore = score;
@@ -49,6 +51,14 @@ input.addEventListener('focusout', () => {
     alert('Liczba musi być w zakresie pomiędzy 1 a 100000!');
     input.value = '20';
     input.focus();
+  }
+});
+
+document.addEventListener('keyup', function(event) {
+  if(event.code === 'Enter') {
+    document.querySelector('.check').click()
+  } else if(event.code === 'KeyR') {
+    document.querySelector('.again').click();
   }
 });
 
