@@ -77,6 +77,7 @@ function init() {
 
 function endGame() {
   displayMessage('You lost the game :(');
+  document.querySelector('body').style.backgroundColor = '#ff6060';
   gameOver = true;
   if(score > 0) {
     score--;
